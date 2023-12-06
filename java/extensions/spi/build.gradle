@@ -1,0 +1,64 @@
+
+group 'me.snorochevskiy.spi.demo'
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'maven'
+    apply plugin: "maven-publish"
+}
+
+subprojects {
+    repositories {
+        jcenter()
+        mavenLocal()
+    }
+}
+
+project(':api') {
+
+}
+
+project(':main') {
+    dependencies {
+        compile project(':api')
+        compile group: 'me.snorochevskiy.spi.demo', name: 'stdout', version:'1.0-SNAPSHOT'
+        compile group: 'me.snorochevskiy.spi.demo', name: 'file',   version:'1.0-SNAPSHOT'
+    }
+}
+
+project(':file') {
+    dependencies {
+        compile project(':api')
+    }
+
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                groupId = 'me.snorochevskiy.spi.demo'
+                artifactId = 'file'
+                version = '1.0-SNAPSHOT'
+
+                from components.java
+            }
+        }
+    }
+}
+
+project(':stdout') {
+    dependencies {
+        compile project(':api')
+    }
+
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                groupId = 'me.snorochevskiy.spi.demo'
+                artifactId = 'stdout'
+                version = '1.0-SNAPSHOT'
+
+                from components.java
+            }
+        }
+    }
+}

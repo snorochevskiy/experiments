@@ -1,0 +1,44 @@
+group 'me.snorochevskiy.springfactories.demo'
+
+allprojects {
+    apply plugin: 'idea'
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: "maven-publish"
+}
+
+subprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+project(':daytime-spring-boot-starter') {
+    dependencies {
+        compileOnly group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.0.5.RELEASE'
+        compileOnly group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.5.RELEASE'
+        compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    }
+
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                groupId = 'me.snorochevskiy.springfactories.demo'
+                artifactId = 'daytime-spring-boot-starter'
+                version = '1.0-SNAPSHOT'
+
+                from components.java
+            }
+        }
+    }
+}
+
+project(':main') {
+    dependencies {
+        compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.5.RELEASE'
+
+        compile group: 'me.snorochevskiy.springfactories.demo', name: 'daytime-spring-boot-starter', version: '1.0-SNAPSHOT'
+    }
+}

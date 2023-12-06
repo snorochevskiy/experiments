@@ -1,0 +1,32 @@
+group 'me.snorochevskiy.javac.plugin'
+version "0.0.1-SNAPSHOT"
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group:'junit', name: 'junit', version: '4.12'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+project(':plugin') {
+    dependencies {
+        compile files("${System.properties['java.home']}/../lib/tools.jar")
+    }
+}
+
+project(':app') {
+    dependencies {
+        compile files("${System.properties['java.home']}/../lib/tools.jar")
+        compile project(':plugin')
+    }
+}

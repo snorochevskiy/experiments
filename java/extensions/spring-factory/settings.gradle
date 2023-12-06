@@ -1,0 +1,1 @@
+include ':daytime-spring-boot-starter', ':main'
